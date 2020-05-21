@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace QuickBuy.Dominio.Entidades
 {
-    public class Pedido
+    public class Pedido : Entidade
     {
         public int Id { get; set; }
         public DateTime DataPedido { get; set; }
@@ -20,7 +21,13 @@ namespace QuickBuy.Dominio.Entidades
         public ICollection<ItemPedido> ItensPedido { get; set; }
 
 
-
+        public override void Validate()
+        {
+            if (!ItensPedido.Any())
+                AdicionarCritica("Critica - Pedido não pode ficar sem preenchimento.");
+            if (string.IsNullOrEmpty(CEP))
+                AdicionarCritica("Critica - CEP não preenchido");
+        }
 
     }
 }
