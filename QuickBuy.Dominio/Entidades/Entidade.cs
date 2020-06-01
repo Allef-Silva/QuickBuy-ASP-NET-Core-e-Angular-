@@ -1,28 +1,31 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace QuickBuy.Dominio.Entidades
 {
-    public abstract class Entidade
+    public abstract class Entidade 
     {
-        private public List<string> _mensagensValidacao { get; set; }
-        private List<string> mensagemValidacao
+        [NotMapped]
+        public  List<string> _mensagemValidacao { get; set; }
+        
+        private  List<string> MensagemValidacao
         {
-            get { return _mensagensValidacao ?? (_mensagensValidacao = new List<string>()); }
+            get { return _mensagemValidacao ?? (_mensagemValidacao = new List<string>()); }
         }
         protected void LimparMensagensValidacao()
         {
-            mensagemValidacao.Clear();
+            MensagemValidacao.Clear();
         }
 
         protected void AdicionarCritica(string mensagem)
         {
-            mensagemValidacao.Add(mensagem);
+            MensagemValidacao.Add(mensagem);
         }
         public abstract void Validate();
         protected bool EhValido
         {
-            get { return !mensagemValidacao.Any(); }
+            get { return !MensagemValidacao.Any(); }
         }
 
 
